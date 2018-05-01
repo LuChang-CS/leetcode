@@ -23,10 +23,11 @@ The letters in `J` are guaranteed distinct, and all characters in `J` and `S` ar
 <b>Input:</b> J = "z", S = "ZZ"
 <b>Output:</b> 0
 </pre>
+
 Note:
 
-`S` and `J` will consist of letters and have length at most 50.
-The characters in `J` are distinct.
+- `S` and `J` will consist of letters and have length at most 50.
+- The characters in `J` are distinct.
 
 ## Analysis
 
