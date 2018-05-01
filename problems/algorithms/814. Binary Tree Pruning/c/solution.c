@@ -66,6 +66,5 @@ int main() {
     struct TreeNode* subnodes[200];
     subnodes[0] = root;
     print_tree(subnodes, 0, 1);
-    getchar();
     return 0;
 }
