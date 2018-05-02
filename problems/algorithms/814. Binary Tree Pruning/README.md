@@ -37,7 +37,7 @@ The diagram on the right represents the answer.
 </pre>
 
 <pre style="font-family: consolas">
-<b>Example 2:</b>
+<b>Example 3:</b>
 <b>Input:</b> [1, 1, 0, 1, 1, 0, 1, 0]
 <b>Output:</b> [1, 1, 0, 1, 1, null, 1]
 
