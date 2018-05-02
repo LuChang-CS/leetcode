@@ -1,0 +1,73 @@
+\section*{535. Encode and Decode TinyURL}
+\label{algo:535}
+
+\subsection*{Difficulty}
+Medium
+
+\subsection*{Tags}
+Cryptology
+
+\subsection*{Description}
+TinyURL is a URL shortening service where you enter a URL such as \inlinecode{https://leetcode.com/problems/design-tinyurl} and it returns a short URL such as \inlinecode{http://tinyurl.com/4e9iAk}.
+
+Design the \inlinecode{encode} and \inlinecode{decode} methods for the TinyURL service. There is no restriction on how your encode/decode algorithm should work. You just need to ensure that a URL can be encoded to a tiny URL and the tiny URL can be decoded to the original URL.
+
+\subsection*{Analysis}
+This is an open problem where numerous solutions can be applied. We can even keep the original url as encode and decode, although it is meaningless.
+
+We should to pay attention to these limitations:
+\begin{itemize}
+	\item Correctness: We must make sure that the decoded url is the same as the original url.
+	\item Uniqueness: Each url must have an unique encoded url, and an encoded url must be decoded to a single url.
+	\item Simplicity: The aim to encode a url is to make it easy to share or write, so we need to make the encoded url as simple as possible.
+\end{itemize}
+
+We can use current popular encode/decode algorithms such as \inlinecode{AES}, \inlinecode{DES}, but in this problem, we just design a simpler algorithm to encode and decode a url.
+\begin{minted}[
+	framesep=2mm,
+	baselinestretch=1.2,
+	bgcolor=codebackground,
+	fontsize=\footnotesize]{matlab}
+function encode(url)
+    return hex(current number of urls in hash table)
+end
+
+function decode(encoded_url)
+    return (hash table).find(encoded_url)
+end
+\end{minted}
+
+\newpage
+
+\subsection*{Solution}
+\subsubsection*{C++}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+linenos]{c++}
+class Solution {
+public:
+
+    Urlmap urlmap;
+    
+    // Encodes a URL to a shortened URL.
+    string encode(string longUrl) {
+        size_t size = urlmap.size();
+        stringstream encoded;
+        encoded << hex << size;
+        string encoded_url = encoded.str();
+        urlmap.insert(make_pair(encoded_url, longUrl));
+        return encoded_url;
+    }
+    
+    // Decodes a shortened URL to its original URL.
+    string decode(string shortUrl) {
+    Urlmap::iterator it = urlmap.find(shortUrl);
+    if (it == urlmap.end()) return NULL;
+        return it->second;
+    }
+};
+\end{minted}
+
+\newpage
