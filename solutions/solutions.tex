@@ -1,0 +1,46 @@
+\documentclass[a4paper,12pt]{scrbook}
+
+\usepackage{bold-extra}
+\usepackage{mathpazo}
+\usepackage{fontspec}
+\usepackage{minted}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{polyglossia}
+\usepackage{amsmath}
+\usepackage{microtype}
+\usepackage{titletoc}
+\usepackage{tocloft}
+
+\hypersetup{
+	colorlinks,
+	linkcolor=black,
+}
+
+\setmainlanguage{english}
+\setotherlanguages{kannada}
+
+\begin{document}
+
+\input{ch-book.cls}
+
+\author{Lu Chang \& Zhang Mengjiao}
+\title{LeetCode Solutions}
+\date{First Edition}
+
+\maketitle
+
+\frontmatter
+
+\include{preface/pre}
+
+\tableofcontents
+
+\mainmatter
+\include{algorithms/algo}
+\include{databases/db}
+
+\end{document}
