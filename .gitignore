@@ -1,2 +1,7 @@
 .vs/
 .vscode/
+*.aux
+*.log
+*.out
+*.gz
+*.toc
