@@ -56,7 +56,7 @@
         breaklines=true,
         breakindent=0em,
         postbreak=\mbox{{$\hookrightarrow$}\space},
-        morekeywords={Input, Output}}}{}
+        morekeywords={Input, Output, Explanation}}}{}
 %
 
 % define Example
