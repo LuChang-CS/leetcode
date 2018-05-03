@@ -69,3 +69,8 @@
 \newtheorem{example}{Example}
 \counterwithin*{example}{section}
 %
+
+% section format
+\newcommand{\nocontentsline}[3]{}
+\newcommand{\tocless}[2]{\bgroup\let\addcontentsline=\nocontentsline#1{#2}\egroup}
+%
