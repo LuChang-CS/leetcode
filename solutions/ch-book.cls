@@ -45,7 +45,7 @@
 \def\ininecode{code}
 \newcommand{\inlinecode}[1]{
 	\colorbox{codebackground}{\codefont#1}}
-\lstnewenvironment{multilinecode}{%
+\lstnewenvironment{multilinecode}{
     \lstset{
         backgroundcolor=\color{codebackground},
         basicstyle=\codefont,
@@ -53,16 +53,18 @@
         showstringspaces=false,
         xleftmargin=1em,
         framexleftmargin=1em,
-        morekeywords={Input, Output}}}
-{}
+        breaklines=true,
+        breakindent=0em,
+        postbreak=\mbox{{$\hookrightarrow$}\space},
+        morekeywords={Input, Output}}}{}
 %
 
 % define Example
 \newtheoremstyle{definition}
-{}{}%
-{}{}%
-{\bfseries}{}%
-{\newline}{}%
+{}{}
+{}{}
+{\bfseries}{}
+{\newline}{}
 \theoremstyle{definition}
 \newtheorem{example}{Example}
 \counterwithin*{example}{section}
