@@ -16,9 +16,9 @@ int count_one(struct TreeNode* r) {
     int left_count = count_one(r->left);
     int right_count = count_one(r->right);
     /**
-    * I write this comment just to say I remember to free the memory,
-    * but in this test, forget it.
-    */
+     * I write this comment just to say I remember to free the memory,
+     * but in this test, forget it.
+     */
     if (left_count == 0) r->left = NULL;
     if (right_count == 0) r->right = NULL;
     return r->val + left_count + right_count;  // consider the value for this node itself.
