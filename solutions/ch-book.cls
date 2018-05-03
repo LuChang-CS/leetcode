@@ -20,9 +20,6 @@
 \titleformat{\chapter}[display]
 {\normalfont\Huge\bfseries\headingfont}
 {\chaptertitlename\ \thechapter}{5pt}{\phantomsection}
-\titleformat{\section}
-{\normalfont\Large\bfseries\headingfont}
-{\thesection}{1em}{\phantomsection}
 %
 
 % paragraph format
@@ -71,6 +68,10 @@
 %
 
 % section format
+\titleformat{\section}
+{\normalfont\Large\bfseries\headingfont}
+{\thesection}{0in}{\phantomsection}
 \newcommand{\nocontentsline}[3]{}
 \newcommand{\tocless}[2]{\bgroup\let\addcontentsline=\nocontentsline#1{#2}\egroup}
+\renewcommand\thesection{}
 %
