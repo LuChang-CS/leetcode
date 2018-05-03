@@ -46,7 +46,7 @@ Note:
 
 This problem is the combination of Morse Code and a hash store. In this problem, we need to check repetition count of the Morse Code for each word in `words`. Therefore we can simply use a hash set to store appeared Morse Codes and check the existence of next.
 
-We assume the size of `words` is `m`, and we have already known that each `words[i]` will have length in range `[1, 12]`, we assume the max length of a word is n, then
+We assume the size of `words` is `m`, and we have already known that each `words[i]` will have length in range `[1, 12]`, we assume the max length of a word is `n`, then
 
 - Time complexity: `O(mn)` (We need to iterate all `m` word in `words` and calculate the hash of this word, while checking the existence is `O(1)`)
 - Space complexity: `O(m)` (We assume that each hash is stores as Integer)
