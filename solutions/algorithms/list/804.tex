@@ -1,0 +1,77 @@
+\tocless\section{804. Unique Morse Code Words}
+\label{algo:804}
+
+\subsection*{Difficulty}
+Easy
+
+\subsection*{Tags}
+Hash Table
+
+\subsection*{Description}
+International Morse Code defines a standard encoding where each letter is mapped to a series of dots and dashes, as follows: \inlinecode{"a"} maps to \inlinecode{".-"}, \inlinecode{"b"} maps to \inlinecode{"-..."}, \inlinecode{"c"} maps to \inlinecode{"-.-."}, and so on.
+
+For convenience, the full table for the 26 letters of the English alphabet is given below:
+\begin{multilinecode}
+[".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."]
+\end{multilinecode}
+
+Now, given a list of words, each word can be written as a concatenation of the Morse code of each letter. For example, \inlinecode{"cab"} can be written as \inlinecode{"-.-.-....-"}, (which is the concatenation \inlinecode{"-.-."} + \inlinecode{"-..."} + \inlinecode{".-"}). We'll call such a concatenation, the transformation of a word.
+
+Return the number of different transformations among all words we have.
+
+\begin{example}
+\begin{multilinecode}
+Input: words = ["gin", "zen", "gig", "msg"]
+Output: 2
+Explanation:
+The transformation of each word is:
+"gin" -> "--...-."
+"zen" -> "--...-."
+"gig" -> "--...--."
+"msg" -> "--...--."
+
+There are 2 different transformations, "--...-." and "--...--.".
+\end{multilinecode}
+\end{example}
+
+\subsection*{Note}
+\begin{itemize}
+    \item The length of \inlinecode{words} will be at most \inlinecode{100}.
+    \item Each \inlinecode{words[i]} will have length in range \inlinecode{[1, 12]}.
+    \item \inlinecode{words[i]} will only consist of lowercase letters.
+\end{itemize}
+
+\subsection*{Analysis}
+This problem is the combination of Morse Code and a hash store. In this problem, we need to check repetition count of the Morse Code for each word in `words`. Therefore we can simply use a hash set to store appeared Morse Codes and check the existence of next.
+
+We assume the size of \inlinecode{words} is $m$, and we have already known that each \inlinecode{words[i]} will have length in range \inlinecode{[1, 12]}, we assume the max length of a word is $n$, then
+\begin{itemize}
+\item Time complexity: $\mathcal{O}(mn)$ (We need to iterate all $m$ word in \inlinecode{words} and calculate the hash of this word, while checking the existence is $\mathcal{O}(1)$)
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection*{C++}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c++}
+int uniqueMorseRepresentations(vector<string>& words) {
+    string morse_table[] = { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-",  "..-", "...-", ".--", "-..-", "-.--", "--.." };
+    unordered_set<string> morse_codes(100);  // the max size of words is 100
+    for (vector<string>::iterator iter = words.begin(); iter != words.end(); ++iter) {
+        string word = *iter;
+        string code;
+        code.reserve(50);
+        for (string::iterator ch_iter = word.begin(); ch_iter != word.end(); ++ch_iter) {
+            code += morse_table[*ch_iter - 'a'];  // calculate the morse code of each letter
+        }
+        morse_codes.insert(code);
+    }
+    return morse_codes.size();
+}
+\end{minted}
+
+\newpage
+
