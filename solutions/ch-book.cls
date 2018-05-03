@@ -7,8 +7,7 @@
     \vspace{0.2in}
     \fontsize{14}{14}\selectfont\par\noindent\textbf{\textit{\@date}}
     \vfill
-    \thispagestyle{empty}
-}
+    \thispagestyle{empty}}
 \makeatother
 %
 
@@ -28,8 +27,8 @@
 
 % paragraph format
 \setlength{\parindent}{2em}
-\setlength{\parskip}{1em}
-\renewcommand{\baselinestretch}{1.5}
+\setlength{\parskip}{0.6em}
+\renewcommand{\baselinestretch}{1.2}
 %
 
 % content format
@@ -45,6 +44,26 @@
 \newfontfamily\codefont[Scale=0.8]{Consolas}
 \def\ininecode{code}
 \newcommand{\inlinecode}[1]{
-	\colorbox{codebackground}{\codefont#1}
-}
+	\colorbox{codebackground}{\codefont#1}}
+\lstnewenvironment{multilinecode}{%
+    \lstset{
+        backgroundcolor=\color{codebackground},
+        basicstyle=\codefont,
+        keywordstyle=\bfseries,
+        showstringspaces=false,
+        xleftmargin=1em,
+        framexleftmargin=1em,
+        morekeywords={Input, Output}}}
+{}
+%
+
+% define Example
+\newtheoremstyle{definition}
+{}{}%
+{}{}%
+{\bfseries}{}%
+{\newline}{}%
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+\counterwithin*{example}{section}
 %
