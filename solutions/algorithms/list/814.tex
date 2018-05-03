@@ -1,0 +1,88 @@
+\tocless\section{814. Binary Tree Pruning}
+\label{algo:814}
+
+\subsection*{Difficulty}
+Easy
+
+\subsection*{Tags}
+Binary Tree, Recursive Algorithm
+
+\subsection*{Description}
+We are given the head node \inlinecode{root} of a binary tree, where additionally every node's value is either a 0 or a 1.
+
+Return the same tree where every subtree (of the given tree) not containing a 1 has been removed.
+
+(Recall that the subtree of a node X is X, plus every node that is a descendant of X.)
+\begin{example}
+\begin{multilinecode}
+Input: [1, null, 0, 0, 1]
+Output: [1, null, 0, null, 1]
+
+Explanation:
+Only the red nodes satisfy the property "every subtree not containing a 1".
+The diagram on the right represents the answer.
+\end{multilinecode}
+\includegraphics*[width=14cm]{figs/algo_814_1}
+\end{example}
+
+\begin{example}
+\begin{multilinecode}
+Input: [1, 0, 1, 0, 0, 0, 1]
+Output: [1, null, 1, null, 1]
+\end{multilinecode}
+\includegraphics*[width=14cm]{figs/algo_814_2}
+\end{example}
+
+\begin{example}
+\begin{multilinecode}
+Example 3:
+Input: [1, 1, 0, 1, 1, 0, 1, 0]
+Output: [1, 1, 0, 1, 1, null, 1]
+\end{multilinecode}
+\includegraphics*[width=14cm]{figs/algo_814_3}
+\end{example}
+
+\subsection*{Note}
+\begin{itemize}
+\item The binary tree will have at most \inlinecode{100 nodes}.
+\item The value of each node will only be \inlinecode{0} or \inlinecode{1}.
+\end{itemize}
+
+\subsection*{Analysis}
+This is a problem about the binary tree. However, it is not a complicated problem because we only need a preorder traversal and count the number of 1 in the subtree of a node. Then if the count is `0` of the subtree for a node, we just need to make the pointer to \inlinecode{null}.
+
+We assume that the nodes number is $n$, then
+\begin{itemize}
+\item Time Complexity: $\mathcal{O}(n)$
+\item Space Complexity: $\mathcal{O}(n)$ (We need to maintain a count for each node)
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection*{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+int count_one(struct TreeNode* r) {
+    if (r == NULL) return 0;  // leaf node
+    int left_count = count_one(r->left);
+    int right_count = count_one(r->right);
+    /**
+    * I write this comment just to say I remember to free the memory,
+    * but in this test, forget it.
+    */
+    if (left_count == 0) r->left = NULL;
+    if (right_count == 0) r->right = NULL;
+    return r->val + left_count + right_count;  // consider the value for this node itself.
+}
+
+struct TreeNode* pruneTree(struct TreeNode* root) {
+    count_one(root);  // only need call this function
+    return root;
+}
+\end{minted}
+
+\newpage
+
