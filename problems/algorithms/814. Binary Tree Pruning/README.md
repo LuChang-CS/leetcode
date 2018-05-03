@@ -41,7 +41,7 @@ The diagram on the right represents the answer.
 <b>Input:</b> [1, 1, 0, 1, 1, 0, 1, 0]
 <b>Output:</b> [1, 1, 0, 1, 1, null, 1]
 
-<img alt="" src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/04/06/1028_1.png" style="width:450px" />
+<img alt="" src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/04/06/1028.png" style="width:450px" />
 </pre>
 
 Note:
