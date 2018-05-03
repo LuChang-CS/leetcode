@@ -1,0 +1,69 @@
+\section*{771. Jewels and Stones}
+\label{algo:771}
+
+\subsection*{Difficulty}
+Easy
+
+\subsection*{Tags}
+Hash Table
+
+\subsection*{Description}
+You're given strings \inlinecode{J} representing the types of stones that are jewels, and \inlinecode{S} representing the stones you have. Each character in \inlinecode{S} is a type of stone you have. You want to know how many of the stones you have are also jewels.
+
+The letters in \inlinecode{J} are guaranteed distinct, and all characters in \inlinecode{J} and \inlinecode{S} are letters. Letters are case sensitive, so \inlinecode{"a"} is considered a different type of stone from \inlinecode{"A"}.
+
+\begin{example}
+\begin{multilinecode}
+Input: J = "aA", S = "aAAbbbb"
+Output: 3
+\end{multilinecode}
+\end{example}
+
+\begin{example}
+\begin{multilinecode}
+Input: J = "z", S = "ZZ"
+Output: 0
+\end{multilinecode}
+\end{example}
+
+\subsection*{Note}
+\begin{itemize}
+    \item \inlinecode{S} and \inlinecode{J} will consist of letters and have length at most 50.
+    \item The characters in \inlinecode{J} are distinct.
+\end{itemize}
+
+\subsection*{Analysis}
+This is an easy problem. All we need to do is to verify wether each letter in \inlinecode{S} exists in \inlinecode{J}.
+
+Therefore, we can use a hash set to store \inlinecode{J}. Specifically, \inlinecode{J} is composed of letters (lower or upper) only, so we can use an array of \inlinecode{char} to store each letter in . After that, we only need to iterate \inlinecode{S} to calculate the number of jewels.
+
+We assume the length of  is $m$, the length of \inlinecode{S} is $n$, then
+\begin{itemize}
+    \item Time complexity: $\mathcal{O}(m + n)$
+    \item Space complexity: $\mathcal{O}(1)$ (256 ASCII chars)
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+int numJewelsInStones(char* J, char* S) {
+    char j_letters[256] = { 0 };  // initialize an array to store letters in J
+    char c;
+    for (int i = 0; (c = J[i]) != '\0'; ++i) {
+        j_letters[c] = 1;  // set j_letters[c] = 1 means c appears in J
+    }
+    int jewel_number = 0;  // number of jewels
+    for (int i = 0; (c = S[i]) != '\0'; ++i) {
+        jewel_number += j_letters[c];  // if c appears in J, then we add a number
+    }
+    return jewel_number;
+}
+\end{minted}
+
+\newpage
+
