@@ -18,11 +18,11 @@
 % chapter title format
 \newfontfamily\headingfont[]{Arial}
 \titleformat{\chapter}[display]
-{\normalfont\sffamily\Huge\bfseries\headingfont}
-{\chaptertitlename\ \thechapter}{5pt}{\Huge}
+{\normalfont\Huge\bfseries\headingfont}
+{\chaptertitlename\ \thechapter}{5pt}{\phantomsection}
 \titleformat{\section}
-{\normalfont\sffamily\Large\bfseries\headingfont}
-{\thesection}{1em}{}
+{\normalfont\Large\bfseries\headingfont}
+{\thesection}{1em}{\phantomsection}
 %
 
 % paragraph format
