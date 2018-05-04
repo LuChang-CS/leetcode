@@ -2,7 +2,7 @@
 
 ## Difficulty
 
-Easy
+Medium
 
 ## Tags
 
