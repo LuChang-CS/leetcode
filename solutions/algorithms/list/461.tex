@@ -1,0 +1,61 @@
+\tocless\section{461. Hamming Distance}
+\label{algo:461}
+
+\subsection*{Difficulty}
+Easy
+
+\subsection*{Tags}
+Bitwise Operation
+
+\subsection*{Description}
+The \href{https://en.wikipedia.org/wiki/Hamming_distance}{Hamming distance} between two integers is the number of positions at which the corresponding bits are different.
+
+Given two integers \inlinecode{x} and \inlinecode{y}, calculate the Hamming distance.
+
+\textbf{Note}
+
+$0 \le x, y < 2^{31}$
+
+\begin{example}
+\begin{multilinecode}
+Input: x = 1, y = 4
+Output: 2
+
+Explanation:
+1   (0 0 0 1)
+4   (0 1 0 0)
+       $\uparrow$    $\uparrow$
+
+The above arrows point to positions where the corresponding bits are different.
+\end{multilinecode}
+\end{example}
+
+\subsection*{Analysis}
+This is an easy problem about Hamming distance and bitwise operation. We can see from the example above that the Hamming distance is the sum of different bits. Therefore, we may easily associate with \inlinecode{xor} operation that detect different bits.
+
+\begin{multilinecode}
+1 xor 4 = 0001 xor 0100 = 0101 = 5
+\end{multilinecode}
+Then we can just count the bit of value \inlinecode{1} in \inlinecode{5}, i.e. \inlinecode{x xor y}. To perform this operation, we can fetch the last bit of 5 by \inlinecode{and} with \inlinecode{1}, and following shift operation.
+
+\subsection*{Solution}
+\subsubsection*{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+int hammingDistance(int x, int y) {
+    int mask = x ^ y;  // xor operation
+    int number = 0;
+    while (mask > 0) {
+        number += mask & 1;  // fetch the last bit
+        mask >>= 1;  // shift operation
+    }
+    return number;
+}
+\end{minted}
+
+\newpage
+
