@@ -52,6 +52,7 @@
         framexleftmargin=1em,
         breaklines=true,
         breakindent=0em,
+        mathescape=true,
         postbreak=\mbox{{$\hookrightarrow$}\space},
         morekeywords={Input, Output, Explanation}}}{}
 %
