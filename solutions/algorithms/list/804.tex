@@ -34,7 +34,7 @@ There are 2 different transformations, "--...-." and "--...--.".
 \end{multilinecode}
 \end{example}
 
-\subsection*{Note}
+\textbf{Note}
 \begin{itemize}
     \item The length of \inlinecode{words} will be at most \inlinecode{100}.
     \item Each \inlinecode{words[i]} will have length in range \inlinecode{[1, 12]}.
@@ -42,7 +42,7 @@ There are 2 different transformations, "--...-." and "--...--.".
 \end{itemize}
 
 \subsection*{Analysis}
-This problem is the combination of Morse Code and a hash store. In this problem, we need to check repetition count of the Morse Code for each word in `words`. Therefore we can simply use a hash set to store appeared Morse Codes and check the existence of next.
+This problem is the combination of Morse Code and a hash store. In this problem, we need to check repetition count of the Morse Code for each word in \inlinecode{words}. Therefore we can simply use a hash set to store appeared Morse Codes and check the existence of next.
 
 We assume the size of \inlinecode{words} is $m$, and we have already known that each \inlinecode{words[i]} will have length in range \inlinecode{[1, 12]}, we assume the max length of a word is $n$, then
 \begin{itemize}
