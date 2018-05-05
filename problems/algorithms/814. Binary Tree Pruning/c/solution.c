@@ -30,21 +30,23 @@ struct TreeNode* pruneTree(struct TreeNode* root) {
 }
 // solution end
 
-void print_tree(struct TreeNode* subnodes[], int top, int bottom) {
-    if (top == bottom) return;
-    int new_top = top, new_bottom = bottom;
-    for (int i = top; i < bottom; ++i) {
-        if (subnodes[i] == NULL) printf("%s", "null ");
+void print_tree(struct TreeNode* root, int tree_size) {
+    typedef struct TreeNode TreeNode;
+    TreeNode **queue = (TreeNode **)malloc(2 * tree_size * sizeof(TreeNode *));
+    int bottom = 0, top = 1;
+    queue[0] = root;
+    while (bottom != top) {
+        TreeNode *node = queue[bottom++];
+        if (node == NULL) printf("null ");
         else {
-            printf("%d ", subnodes[i]->val);
-            if (subnodes[i]->left != NULL || subnodes[i]->right != NULL) {
-                subnodes[new_bottom++] = subnodes[i]->left;
-                subnodes[new_bottom++] = subnodes[i]->right;
+            printf("%d ", node->val);
+            if (node->left != NULL || node->right != NULL) {
+                queue[top++] = node->left;
+                queue[top++] = node->right;
             }
         }
-        ++new_top;
     }
-    print_tree(subnodes, new_top, new_bottom);
+    free(queue);
 }
 
 int main() {
@@ -63,8 +65,6 @@ int main() {
     level2_left->left = level2_left->right = NULL;
     level2_right->left = level2_right->right = NULL;
     root = pruneTree(root);
-    struct TreeNode* subnodes[200];
-    subnodes[0] = root;
-    print_tree(subnodes, 0, 1);
+    print_tree(root, 4);
     return 0;
 }
