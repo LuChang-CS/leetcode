@@ -1,0 +1,130 @@
+\tocless\section{797. All Paths From Source to Target}
+\label{algo:797}
+
+\subsection*{Difficulty}
+Medium
+
+\subsection*{Tags}
+Graph
+
+\subsection*{Description}
+Given a directed, acyclic graph of \inlinecode{N} nodes.  Find all possible paths from node \inlinecode{0} to node \inlinecode{N - 1}, and return them in any order.
+
+The graph is given as follows:  the nodes are \inlinecode{0, 1, ..., graph.length - 1}.  \inlinecode{graph[i]} is a list of all nodes \inlinecode{j} for which the edge \inlinecode{(i, j)} exists.
+
+\begin{example}
+\begin{multilinecode}
+Input: [[1, 2], [3], [3], []]
+Output: [[0, 1, 3], [0, 2, 3]]
+
+Explanation: The graph looks like this:
+0--->1
+|    |
+v    v
+2--->3
+There are two paths: 0 -> 1 -> 3 and 0 -> 2 -> 3.
+\end{multilinecode}
+\end{example}
+
+\textbf{Note}
+\begin{itemize}
+    \item The number of nodes in the graph will be in the range \inlinecode{[2, 15]}.
+    \item You can print different paths in any order, but you should keep the order of nodes inside one path.
+\end{itemize}
+
+\subsection*{Analysis}
+This is a classic DFS or BFS algorithm. We can easily use recursive method to generate paths.
+
+Let me explain the example first. We first assume that the node number in the graph is \inlinecode{n}, and the node is \inlinecode{0, 1, ..., n - 1}. The input is \inlinecode{[[1, 2], [3], [3], []]}, which means node \inlinecode{0} is connected to \inlinecode{1} and \inlinecode{2} and so forth. In a recursive manner, we first fetch \inlinecode{1} and find \inlinecode{1} is connected to \inlinecode{3}, then these two nodes forms a path. And we next fetch \inlinecode{2}, and find \inlinecode{2} is also connected to \inlinecode{3}, hence, there are two paths. In this manner, we call is Depth-First-Search (DFS), and DFS can be intuitively implemented in a recursive manner.
+
+As for Breadth-First-Search (BFS), BFS is more appropriate to be implemented in a loop manner with a queue. It fetch all nodes in a layer to this queue, dequeue each node, and put successive nodes in queue. In this example, we first fetch \inlinecode{1} and \inlinecode{2}. Then we fetch \inlinecode{3} and \inlinecode{3} as successive nodes of \inlinecode{1} and \inlinecode{2}. Finally we also find there are two paths.
+
+In our solution, we use DFS in a non-recursive manner, just to try more method. We use stack to replace recursion. Similar to BFS, It first fetch all nodes in a layer to the stack, pop from stack and push its successive nodes.
+\begin{itemize}
+    \item Time complexity: $\mathcal{O}(n^2)$, when the graph is a complete graph, because node \inlinecode{i} have \inlinecode{n - i} successive nodes.
+    \item Space complexity: $\mathcal{O}(n^2)$ , also when it is a complete graph.
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+// use a linked list to store path temporarily
+struct Path {
+    int *path;
+    int path_len;
+    struct Path *next;
+};
+typedef struct Path Path;
+
+int** allPathsSourceTarget(int** graph, int graphRowSize, int *graphColSizes, int** columnSizes, int* returnSize) {
+    Path *paths_list = (Path *)malloc(sizeof(Path));
+    paths_list->next = NULL;
+    Path *paths_list_tail = paths_list;
+    int path_number = 0;
+    
+    // BFS in a stack manner
+    int node_stack[225], top = 0;
+    node_stack[0] = 0;
+    // this stack is to store the path length in each layer
+    // the successive nodes of one node form a layer
+    int path_len_stack[225], len_top = 0;
+    path_len_stack[0] = 1;
+    
+    // a path
+    int *current_path = (int *)malloc(15 * sizeof(int));
+    int current_path_len;
+    while (top >= 0) {
+        // fetch next node
+        int current_node = node_stack[top--];
+        // fetch the coresponding path length for this node
+        current_path_len = path_len_stack[len_top--];
+        // add this node to current path
+        current_path[current_path_len - 1] = current_node;
+        if (current_node == graphRowSize - 1) {  // if path exists
+            // add path to linked list
+            Path *p = (Path *)malloc(sizeof(Path));
+            p->path = current_path;
+            p->path_len = current_path_len;
+            p->next = NULL;
+            paths_list_tail->next = p;
+            paths_list_tail = p;
+            
+            // get a new path based on current path
+            current_path = (int *)malloc(15 * sizeof(int));
+            memcpy(current_path, p->path, (current_path_len - 1) * sizeof(int));
+            ++path_number;
+        } else {
+            int *current_row = graph[current_node];
+            int current_row_size = graphColSizes[current_node];
+            // add successive nodes and path lengths to the stack
+            for (int i = 0; i < current_row_size; ++i) {
+                node_stack[++top] = current_row[i];
+                path_len_stack[++len_top] = current_path_len + 1;
+            }
+            // move to next layer
+            if (current_row_size > 0) ++current_path_len;
+        }
+    }
+    
+    *returnSize = path_number;
+    int **paths = (int **)malloc(path_number * (sizeof(int *)));
+    *columnSizes = (int *)malloc(path_number * (sizeof(int *)));
+    Path *p = paths_list->next;
+    // transform linked list to 2d array
+    for (int i = 0; p != NULL; ++i) {
+        paths[i] = p->path;
+        (*columnSizes)[i] = p->path_len;
+        p = p->next;
+    }
+    return paths;
+}
+
+\end{minted}
+
+\newpage
+
