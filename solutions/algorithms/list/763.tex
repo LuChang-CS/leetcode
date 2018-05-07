@@ -1,0 +1,79 @@
+\tocless\section{763. Partition Labels}
+\label{algo:763}
+
+\subsection*{Difficulty}
+Medium
+
+\subsection*{Tags}
+Array
+
+\subsection*{Description}
+A string S of lowercase letters is given. We want to partition this string into as many parts as possible so that each letter appears in at most one part, and return a list of integers representing the size of these parts.
+
+\begin{example}
+\begin{multilinecode}
+Input: S = "ababcbacadefegdehijhklij"
+Output: [9,7,8]
+Explanation:
+The partition is "ababcbaca", "defegde", "hijhklij".
+This is a partition so that each letter appears in at most one part.
+A partition like "ababcbacadefegde", "hijhklij" is incorrect, because it splits S into less parts.
+\end{multilinecode}
+\end{example}
+
+\textbf{Note}
+\begin{itemize}
+    \item \inlinecode{S} will have length in range \inlinecode{[1, 500]}.
+    \item \inlinecode{S} will consist of lowercase letters (\inlinecode{'a'} to \inlinecode{'z'}) only.
+\end{itemize}
+
+\subsection*{Analysis}
+This is an interesting array problem, and maybe you will read several more times to comprehend it. In this problem we need to separate \inlinecode{S} into some parts, and each letter have to appear in at most one part, which means the last letter will never appear in successive parts. Therefore, we can naturally have an idea that we need to record the last appearance position of each letter.
+
+In the example above, The last appearance position of \inlinecode{a} is \inlinecode{9}, and letters between \inlinecode{1} and \inlinecode{9} do not appear after \inlinecode{a}, so we can find the first part of \inlinecode{1} to \inlinecode{9}. Then, we know the second part starts at \inlinecode{e} of position \inlinecode{10}, and its last appearance position is \inlinecode{15}. But \inlinecode{e} appears after \inlinecode{15} at \inlinecode{16}, then we have to move the end of second part to \inlinecode{16}. And we find that \inlinecode{16} is exactly the end of the second part.
+
+In conclusion, the basic idea is find the end of each part, which is the maximum position of last appearance in this part.
+
+Assuming the length of \inlinecode{S} is $n$, we have
+\begin{itemize}
+    \item Time complexity: $\mathcal{O}(n)$
+    \item Space complexity: $\mathcal{O}(1)$ (we only need to store the last position of each letter, and the return size is obviously at worst 26, because each letter appears in only one part.)
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+int* partitionLabels(char* S, int* returnSize) {
+    int letter_last_pos[26];
+    char c;
+    // record each letter's last position
+    for (int i = 0; (c = S[i]) != '\0'; ++i) {
+        letter_last_pos[c - 'a'] = i;
+    }
+    int end;
+    int *result = (int *)malloc(26 * sizeof(int));
+    int size = 0;
+    for (int i = 0; (c = S[i]) != '\0';) {
+        // i is the start part, we need to find the end of this part
+        end = letter_last_pos[c - 'a'];
+        // compare the end of each letter with current end
+        for (int j = i + 1; j < end; ++j) {
+            int new_end = letter_last_pos[S[j] - 'a'];
+            if (new_end > end) end = new_end;
+        }
+        result[size++] = end - i + 1;
+        // move to next part
+        i = end + 1;
+    }
+    *returnSize = size;
+    return result;
+}
+\end{minted}
+
+\newpage
+
