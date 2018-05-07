@@ -40,7 +40,7 @@ sum[i + 1] = sum[i] + (x[i] + (b[i + 1] / 2) * x[i + 1]
 And then we need to check `b[x + 1]` to set the flag.
 
 The cases are shown in the figure below:
-![cases](https://lh3.googleusercontent.com/Arp83QlPTOWF4zoitBbHpR-Dn31yEMKanqZDwtoEykq_miOi3mNSy--bL82GUdG2tz5YtIQ1HrptUyM_pTdN=w1680-h917)
+![cases](../../../solutions/figs/algo_561_1.png)
 
 - Time Complexity: `O(n)`
 - Space Complexity: `O(n)`
