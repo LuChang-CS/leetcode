@@ -1,0 +1,97 @@
+\tocless\section{811. Subdomain Visit Count}
+\label{algo:811}
+
+\subsection*{Difficulty}
+Easy
+
+\subsection*{Tags}
+Hash Table
+
+\subsection*{Description}
+A website domain like ``discuss.leetcode.com" consists of various subdomains. At the top level, we have ``com", at the next level, we have ``leetcode.com", and at the lowest level, ``discuss.leetcode.com". When we visit a domain like ``discuss.leetcode.com", we will also visit the parent domains ``leetcode.com" and ``com" implicitly.
+
+Now, call a ``count-paired domain" to be a count (representing the number of visits this domain received), followed by a space, followed by the address. An example of a count-paired domain might be ``9001 discuss.leetcode.com".
+
+We are given a list \inlinecode{cpdomains} of count-paired domains. We would like a list of count-paired domains, (in the same format as the input, and in any order), that explicitly counts the number of visits to each subdomain.
+\begin{example}
+\begin{multilinecode}
+Input:
+["9001 discuss.leetcode.com"]
+Output:
+["9001 discuss.leetcode.com", "9001 leetcode.com", "9001 com"]
+
+Explanation:
+We only have one website domain: "discuss.leetcode.com". As discussed above, the subdomain "leetcode.com" and "com" will also be visited. So they will all be visited 9001 times.
+\end{multilinecode}
+\end{example}
+
+\begin{example}
+\begin{multilinecode}
+Input:
+["900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org"]
+Output:
+["901 mail.com","50 yahoo.com","900 google.mail.com","5 wiki.org","5 org","1 intel.mail.com","951 com"]
+
+Explanation:
+We will visit "google.mail.com" 900 times, "yahoo.com" 50 times, "intel.mail.com" once and "wiki.org" 5 times. For the subdomains, we will visit "mail.com" 900 + 1 = 901 times, "com" 900 + 50 + 1 = 951 times, and "org" 5 times.
+\end{multilinecode}
+\end{example}
+
+\textbf{Note}
+\begin{itemize}
+\item The length of \inlinecode{cpdomains} will not exceed \inlinecode{100}.
+\item The length of each domain name will not exceed \inlinecode{100}.
+\item Each address will have either 1 or 2 ``." characters.
+\item The input count in any count-paired domain will not exceed \inlinecode{10000}.
+\item The answer output can be returned in any order.
+\end{itemize}
+
+\subsection*{Analysis}
+This is an another Hash Table problem. With in a domain, we need to extract each level of it. First of all, we need to iterate the cpdomain to find space, and chars before space is the count. And then we will find each dot to separate each level. And finally, we use a hash table to store and count.
+
+Assuming the length of \inlinecode{cpdomains} is $m$, and the max length of each domain is $n$, then we have
+\begin{itemize}
+\item Time Complexity: $\mathcal{O}(mn)$
+\item Space Complexity: $\mathcal{O}(m)$
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection*{C++}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c++}
+vector<string> subdomainVisits(vector<string>& cpdomains) {
+    typedef unordered_map<string, int> DomainCount;
+    DomainCount domain_count(500);
+    for (auto &cpdomain: cpdomains) {
+        int count = 0;
+        int length = cpdomain.length();
+        for (int i = 0; i < length; ++i) {
+            switch(cpdomain[i]) {
+            case ' ':  // find space
+                // then we can know the count
+                count = stoi(cpdomain.substr(0, i));
+                // lowest domain level
+                domain_count[cpdomain.substr(i + 1, length)] += count;
+                break;
+            case '.':
+                // find each domain level by dot
+                domain_count[cpdomain.substr(i + 1, length)] += count;
+                break;
+            }
+        }
+    }
+    vector<string> result;
+    result.reserve(domain_count.size());
+    for (auto &dc: domain_count) {
+        result.emplace_back(to_string(dc.second) + " " + dc.first);
+    }
+    return result;
+}
+\end{minted}
+
+\newpage
+
