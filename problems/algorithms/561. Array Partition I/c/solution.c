@@ -42,6 +42,5 @@ int arrayPairSum(int* nums, int numsSize) {
 int main() {
     int nums[] = { 1, 2, 3, 2 };
     arrayPairSum(nums, 4);
-    getchar();
     return 0;
 }
