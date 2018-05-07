@@ -1,0 +1,74 @@
+\tocless\section{728. Self Dividing Numbers}
+\label{algo:728}
+
+\subsection*{Difficulty}
+Easy
+
+\subsection*{Tags}
+Math
+
+\subsection*{Description}
+A self-dividing number is a number that is divisible by every digit it contains.
+
+For example, 128 is a self-dividing number because \inlinecode{128 \% 1 == 0}, \inlinecode{128 \% 2 == 0}, and \inlinecode{128 \% 8 == 0`}.
+
+Also, a self-dividing number is not allowed to contain the digit zero.
+
+Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds if possible.
+
+\begin{example}
+\begin{multilinecode}
+Input: left = 1, right = 22
+Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]
+\end{multilinecode}
+\end{example}
+
+\textbf{Note}
+\begin{itemize}
+    \item The boundaries of each input argument are \inlinecode{1 <= left <= right <= 10000}.
+\end{itemize}
+
+\subsection*{Analysis}
+This key problem is to fetch each digit of an integer and check whether this integer can divide each digit. In addition, as long as this integer contains \inlinecode{0}, it is not a self-dividing number.
+
+\begin{itemize}
+    \item Time complexity: $\mathcal{O}(right - left)$
+    \item Space complexity: $\mathcal{O}(1)$
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+int* selfDividingNumbers(int left, int right, int* returnSize) {
+    int *results = (int *)malloc((right - left + 1) * sizeof(int));
+    int count = 0;
+    for (int i = left; i <= right; ++i) {
+        int number = i;
+        int flag = 1;
+        while (number > 0) {
+            // fetch each digits
+            int digit = number % 10;
+            // contains 0 or cannot be divided
+            if (digit == 0 || i % digit != 0) {
+                flag = 0;
+                break;
+            }
+            // shift right in hex mode
+            number /= 10;
+        }
+        if (flag == 1) {
+            results[count++] = i;
+        }
+    }
+    *returnSize = count;
+    return results;
+}
+\end{minted}
+
+\newpage
+
