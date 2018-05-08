@@ -1,0 +1,90 @@
+\tocless\section{806. Number of Lines To Write String}
+\label{algo:806}
+
+\subsection*{Difficulty}
+Easy
+
+\subsection*{Tags}
+Array
+
+\subsection*{Description}
+We are to write the letters of a given string \inlinecode{S}, from left to right into lines. Each line has maximum width 100 units, and if writing a letter would cause the width of the line to exceed 100 units, it is written on the next line. We are given an array \inlinecode{widths}, an array where \inlinecode{widths[0]} is the width of \inlinecode{'a'}, \inlinecode{widths[1]} is the width of \inlinecode{'b'}, ..., and \inlinecode{widths[25]} is the width of \inlinecode{'z'}.
+
+Now answer two questions: how many lines have at least one character from S, and what is the width used by the last such line? Return your answer as an integer list of length 2.
+
+\begin{example}
+\begin{multilinecode}
+Input:
+widths = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+S = "abcdefghijklmnopqrstuvwxyz"
+Output: [3, 60]
+Explanation:
+All letters have the same length of 10. To write all 26 letters,
+we need two full lines and one line with 60 units.
+\end{multilinecode}
+\end{example}
+
+\begin{example}
+\begin{multilinecode}
+Input:
+widths = [4, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+S = "bbbcccdddaaa"
+Output: [2, 4]
+Explanation:
+All letters except 'a' have the same length of 10, and 
+"bbbcccdddaa" will cover 9 * 10 + 2 * 4 = 98 units.
+For the last 'a', it is written on the second line because
+there is only 2 units left in the first line.
+So the answer is 2 lines, plus 4 units in the second line.
+\end{multilinecode}
+\end{example}
+
+\textbf{Note}
+\begin{itemize}
+    \item The length of \inlinecode{S} will be in the range \inlinecode{[1, 1000]}.
+    \item \inlinecode{S} will only contain lowercase letters.
+    \item \inlinecode{widths} is an array of length 26.
+    \item \inlinecode{widths[i]} will be in the range of \inlinecode{[2, 10]}.
+\end{itemize}
+
+\subsection*{Analysis}
+This is a simple and classic typesetting problem, while the description and explanation may be unclear. Each line has a capacity of max character number, and if writing a new word causes the overflow, we need to break line, which means put the this word to a new line. This problem requires us to count the line number and the line width of the last line. Therefore, we just need to iterate the characters, calculating the current line width, and breaking line if needed.
+
+We assume the length of \inlinecode{S} is $n$, then
+\begin{itemize}
+\item Time Complexity: $\mathcal{O}(n)$
+\item Space Complexity: $\mathcal{O}(1)$
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection*{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+int* numberOfLines(int* widths, int widthsSize, char* S, int* returnSize) {
+    int current_line_width = 0;
+    int line_number = 1;
+    char c;
+    for (int i = 0; (c = S[i]) != '\0'; ++i) {
+        int width = widths[c - 'a'];
+        // writing new words
+        current_line_width = current_line_width + width;
+        if (current_line_width > 100) {
+            // break line and put this word to the new line
+            current_line_width = width;
+            ++line_number;
+        }
+    }
+    *returnSize = 2;
+    int *result = (int *)malloc(2 * sizeof(int));
+    result[0] = line_number;
+    result[1] = current_line_width;
+    return result;
+}
+\end{minted}
+
+\newpage
+
