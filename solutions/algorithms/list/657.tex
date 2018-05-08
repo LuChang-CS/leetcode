@@ -47,19 +47,19 @@ bool judgeCircle(char* moves) {
     char move;
     for (int i = 0; (move = moves[i]) != '\0'; ++i) {
         switch (move) {
-            case 'U':
+        case 'U':
             y += 1;
             break;
-            case 'D':
+        case 'D':
             y -= 1;
             break;
-            case 'R':
+        case 'R':
             x += 1;
             break;
-            case 'L':
+        case 'L':
             x -= 1;
             break;
-            default:
+        default:
             break;
         }
     }
