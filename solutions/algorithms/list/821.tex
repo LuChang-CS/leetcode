@@ -1,0 +1,82 @@
+\tocless\section{821. Shortest Distance to a Character}
+\label{algo:821}
+
+\subsection*{Difficulty}
+Easy
+
+\subsection*{Tags}
+String \& Array
+
+\subsection*{Description}
+Given a string \inlinecode{S} and a character \inlinecode{C}, return an array of integers representing the shortest distance from the character \inlinecode{C} in the string.
+
+\begin{example}
+\begin{multilinecode}
+Input: S = "loveleetcode", C = 'e'
+Output: [3, 2, 1, 0, 1, 0, 0, 1, 2, 2, 1, 0]
+\end{multilinecode}
+\end{example}
+
+\textbf{Note}
+\begin{itemize}
+\item \inlinecode{S} string length is in \inlinecode{[1, 10000]}.
+\item \inlinecode{C} is a single character, and guaranteed to be in string \inlinecode{S}.
+\item All letters in \inlinecode{S} and \inlinecode{C} are lowercase.
+\end{itemize}
+
+\subsection*{Analysis}
+We can use the figure below to explain this algorithm:
+
+\includegraphics*{figs/algo_821_1} \\
+The dark color is the specified characters, and we use different dark color to represent different positions. We can easily see that the light-color dots are closest to the same dark color. Therefore, the shortest distance should be calculated according to the dark-color dots. And obviously, the boundary of two dark-color dots is their middle element. So we can first find all positions of the specified character, and directly calculated the shortest distance of each character from the last middle boundary to the next middle boundary.
+
+We assume the length of \inlinecode{S} is $n$, the number of the specified character is $m$, then
+\begin{itemize}
+\item Time Complexity: $\mathcal{O}(n)$
+\item Space Complexity: $\mathcal{O}(m)$
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection*{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+int* shortestToChar(char* S, char C, int* returnSize) {
+    char c;
+    int str_length = 0;
+    int positions[10000];
+    int count = 0;
+    // find the positions of specified character
+    for (int i = 0; (c = S[i]) != '\0'; ++i) {
+        if (c == C) positions[count++] = i;
+        ++str_length;
+    }
+    int *result = (int *)malloc(str_length * sizeof(int));
+    int start = 0, end;
+    for (int i = 0; i < count - 1; ++i) {
+        int position = positions[i];
+        end = (position + positions[i + 1]) / 2;
+        // range from the previous middle boundary to the next one
+        for (int k = start; k <= end; ++k) {
+            int diff = k - position;
+            result[k] = diff < 0 ? -diff : diff;
+        }
+        start = end + 1;
+    }
+    end = str_length - 1;
+    int position = positions[count - 1];
+    // remaining element
+    for (int k = start; k <= end; ++k) {
+        int diff = k - position;
+        result[k] = diff < 0 ? -diff : diff;
+    }
+    *returnSize = str_length;
+    return result;
+}
+\end{minted}
+
+\newpage
+
