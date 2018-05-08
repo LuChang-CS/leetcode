@@ -6,7 +6,7 @@ Medium
 
 ## Tags
 
-Array
+String & Array
 
 ## Description
 

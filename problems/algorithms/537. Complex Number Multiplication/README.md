@@ -6,7 +6,7 @@ Easy
 
 ## Tags
 
-Math, String
+Math, String & Array
 
 ## Description
 

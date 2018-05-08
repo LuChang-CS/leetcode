@@ -6,7 +6,7 @@ Easy
 
 ## Tags
 
-Array
+String & Array
 
 ## Description
 
