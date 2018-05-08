@@ -1,0 +1,129 @@
+\tocless\section{537. Complex Number Multiplication}
+\label{algo:537}
+
+\subsection*{Difficulty}
+Easy
+
+\subsection*{Tags}
+Math, String
+
+\subsection*{Description}
+Given two strings representing two \href{https://en.wikipedia.org/wiki/Complex_number}{complex numbers}.
+
+You need to return a string representing their multiplication. Note $i^2 = -1$ according to the definition.
+
+\begin{example}
+\begin{multilinecode}
+Input: "1+1i", "1+1i"
+Output: "0+2i"
+Explanation: (1 + i) * (1 + i) = 1 + i2 + 2 * i = 2i, and you need convert it to the form of 0+2i.
+\end{multilinecode}
+\end{example}
+
+\begin{example}
+\begin{multilinecode}
+Input: "1+-1i", "1+-1i"
+Output: "0+-2i"
+Explanation: (1 - i) * (1 - i) = 1 + i2 - 2 * i = -2i, and you need convert it to the form of 0+-2i.
+\end{multilinecode}
+\end{example}
+
+\textbf{Note}
+\begin{itemize}
+    \item The input strings will not have extra blank.
+    \item The input strings will be given in the form of \textbf{a+bi}, where the integer a and b will both belong to the range of [-100, 100]. And \textbf{the output should be also in this form}.
+\end{itemize}
+
+\subsection*{Analysis}
+This is an easy complex multiplication problem with many details. First you should parse the string to a complex number. Secondly you should compute the multiplication, and finally you need to transform it to a string in the required form. To parse the complex number, we can easily think up that the part before \inlinecode{+} is the real and the part between \inlinecode{+} and \inlinecode{i} is the image. And to transform the complex to string, we only need to call \inlinecode{sprintf}. However, if we first find the position of \inlinecode{+} and \inlinecode{i} and call \inlinecode{atoi} to transform string to integers, we will get extra iterations. Therefore, we can implement the transform function by ourselves.
+
+We assume the max length of complex strings is $n$, then
+\begin{itemize}
+	\item Time Complexity: $\mathcal{O}(n)$
+	\item Space Complexity: $\mathcal{O}(1)$
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection*{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+linenos]{c}
+struct Complex {
+    int real;
+    int image;
+};
+typedef struct Complex Complex;
+
+int _itoa(int a, char *s) {
+    int i = 0, start = 0;
+    // zero should also be printed
+    if (a == 0) {
+        s[0] = '0';
+        s[1] = '\0';
+        return 1;
+    }
+    if (a < 0) {
+        a = -a;
+        s[0] = '-';
+        start = i = 1;
+    }
+    while (a > 0) {
+        s[i++] = (char)((a % 10) + '0');
+        a /= 10;
+    }
+    // reverse number because steps above fetch digit from lower end to higher.
+    for (int k = start; k < i / 2 + start; ++k) {
+        char c = s[k];
+        int pos = i - k - (1 - start);
+        s[k] = s[pos];
+        s[pos] = c;
+    }
+    s[i] = '\0';
+    return i;
+}
+
+void parse_complex(Complex *complex, char *s) {
+    char c;
+    int val = 0;
+    int sign = 1;
+    for (int i = 0; (c = s[i]) != '\0'; ++i) {
+        switch (c) {
+        case '+':
+            // val now is the real part
+            complex->real = sign == 1 ? val : -val;
+            // reset val and sign after real part to calculate image part
+            val = 0;
+            sign = 1;
+            break;
+        case 'i':
+            // val now is the image part
+            complex->image = sign == 1 ? val : -val;
+            case '-':
+            sign = -1;
+            break;
+        default:
+            val *= 10;
+            val += c - '0';
+        }
+    }
+}
+
+char* complexNumberMultiply(char* a, char* b) {
+    Complex c1, c2;
+    parse_complex(&c1, a);
+    parse_complex(&c2, b);
+    int real = c1.real * c2.real - c1.image * c2.image;
+    int image = c1.real * c2.image + c1.image * c2.real;
+    char *result = (char *)malloc(20 * sizeof(char));
+    int pos = _itoa(real, result);
+    result[pos++] = '+';
+    pos += _itoa(image, result + pos);
+    result[pos++] = 'i';
+    result[pos] = '\0';
+    return result;
+}
+\end{minted}
+
+\newpage
