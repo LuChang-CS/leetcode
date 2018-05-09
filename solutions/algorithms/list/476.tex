@@ -1,0 +1,72 @@
+\tocless\section{476. Number Complement}
+\label{algo:476}
+
+\subsection*{Difficulty}
+Easy
+
+\subsection*{Tags}
+Bitwise Operation
+
+\subsection*{Description}
+Given a positive integer, output its complement number. The complement strategy is to flip the bits of its binary representation.
+
+\textbf{Note}
+\begin{enumerate}
+\item The given integer is guaranteed to fit within the range of a 32-bit signed integer.
+\item You could assume no leading zero bit in the integer's binary representation.
+\end{enumerate}
+
+\begin{example}
+\begin{multilinecode}
+Input: 5
+Output: 2
+
+Explanation: The binary representation of 5 is 101 (no leading zero bits), and its complement is 010. So you need to output 2.
+\end{multilinecode}
+\end{example}
+
+\begin{example}
+\begin{multilinecode}
+Input: 1
+Output: 0
+
+Explanation: The binary representation of 1 is 1 (no leading zero bits), and its complement is 0. So you need to output 0.
+\end{multilinecode}
+\end{example}
+
+\subsection*{Analysis}
+There are many method to solve this problem. For example, you can fetch each bit of this num and calculate its complementary bit. In our solution, we use a different way to calculate. The key point in this problem is how to ignore the leading zero of a number. For example, \inlinecode{~5 = 1...11010} and \inlinecode{~5 \& 7 = 2 = 010}. So, what we need to do is find the smallest $2^n - 1$ that larger than this number. Then we can calculate the complementary number without leading zeros by \inlinecode{~num \& $(2^n - 1)$}, where $n = \lfloor{\log_2{num}}\rfloor)$. Therefore, this problem transforms to how to fast calculate $\lfloor{\log_2{num}}\rfloor)$. In \href{http://www.graphics.stanford.edu/~seander/bithacks.html}{http://www.graphics.stanford.edu/~seander/bithacks.html}, we can find a way with $\mathcal{O}(\log(N))$ time complexity, in which $N$ is the bit length of this number.
+
+\begin{itemize}
+\item Time Complexity: $\mathcal{O}(\log(N))$
+\item Space Complexity: $\mathcal{O}(1)$
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection*{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+int findComplement(int num) {
+    if (num == 0) return 1;
+    
+    int v = num;
+    int r;
+    int shift;
+    
+    // calculate log2(num)
+    r = (v > 0xFFFF) << 4; v >>= r;
+    shift = (v > 0xFF) << 3; v >>= shift; r |= shift;
+    shift = (v > 0xF) << 2; v >>= shift; r |= shift;
+    shift = (v > 0x3) << 1; v >>= shift; r |= shift;
+    r |= (v >> 1);
+    
+    return (~num) & ((2 << r) - 1);
+}
+\end{minted}
+
+\newpage
+
