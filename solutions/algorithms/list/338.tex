@@ -1,0 +1,55 @@
+\tocless\section{338. Counting Bits}
+\label{algo:338}
+
+\subsection*{Difficulty}
+Medium
+
+\subsection*{Tags}
+Bitwise Operation
+
+\subsection*{Description}
+Given a non negative integer number \textbf{num}. For every numbers $i$ in the range $0 \le i \le num$ calculate the number of 1's in their binary representation and return them as an array. \\
+\textbf{Example:}
+
+For $num = 5$ you should return \inlinecode{[0, 1, 1, 2, 1, 2]}. \\
+\textbf{Follow up:}
+\begin{itemize}
+    \item It is very easy to come up with a solution with run time $\mathcal{O}(n * \text{sizeof}(integer))$. But can you do it in linear time $\mathcal{O}(n)$ /possibly in a single pass?
+    \item Space complexity should be $\mathcal{O}(n)$.
+    \item Can you do it like a boss? Do it without using any builtin function like \inlinecode{\_\_builtin\_popcount} in c++ or in any other language.
+\end{itemize}
+\textbf{Credits:}
+
+Special thanks to \href{https://leetcode.com/discuss/user/syedee}{@syedee} for adding this problem and creating all test cases.
+
+\subsection*{Analysis}
+For a single number, if we want to count the number of bit 1, we have to fetch each bit. But as the description said, we can design an algorithm that requires a linear time, which means the previous result is required. Take \inlinecode{13 = 1101} and \inlinecode{14 = 1110} as examples, \inlinecode{1101} can be seen as \inlinecode{110} concatenated with \inlinecode{1}, and \inlinecode{1110} is \inlinecode{111} concatenated with \inlinecode{0}. You may have noticed that a number is composed of its previous \inlinecode{n - 1} bits and the last one bit, assuming the length of the binary number is \inlinecode{n}. And the previous \inlinecode{n - 1} bits are exactly this number's right shift by one bit, while the last bit can be calculated by \inlinecode{and} operation with \inlinecode{1}. Therefore, the count can be calculated by the count of right shift and the last bit.
+
+\begin{itemize}
+    \item Time Complexity: $\mathcal{O}(num)$
+    \item Space Complexity: $\mathcal{O}(1)$
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection*{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+int* countBits(int num, int* returnSize) {
+    int size = num + 1;
+    int *result = (int *)malloc(size * sizeof(int));
+    result[0] = 0;
+    for (int i = 1; i <= num; ++i) {
+        // the last bit and right shift
+        result[i] = (i & 1) + result[i >> 1];
+    }
+    *returnSize = size;
+    return result;
+}
+\end{minted}
+
+\newpage
+
