@@ -1,0 +1,47 @@
+\tocless\section{344. Reverse String}
+\label{algo:344}
+
+\subsection*{Difficulty}
+Easy
+
+\subsection*{Tags}
+String \& Array
+
+\subsection*{Description}
+Write a function that takes a string as input and returns the string reversed. \\
+\textbf{Example:}
+
+\inlinecode{Given s = "hello", return "olleh".}
+
+\subsection*{Analysis}
+This is the most primary string and reverse problem which we should dominate when we begin to learn programming. We just need to iterate half of the string and swap the symmetric elements with the middle element as the symcenter.
+
+We assume the length of the string is $n$, then
+
+\begin{itemize}
+    \item Time Complexity: $\mathcal{O}(n)$
+    \item Space Complexity: $\mathcal{O}(1)$
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection*{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+char* reverseString(char* s) {
+    int len = strlen(s);
+    for (int i = 0; i < len / 2; ++i) {
+        // swap
+        char t = s[i];
+        s[i] = s[len - i - 1];
+        s[len - i - 1] = t;
+    }
+    return s;
+}
+\end{minted}
+
+\newpage
+
