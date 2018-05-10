@@ -1,0 +1,67 @@
+\tocless\section{557. Reverse Words in a String III}
+\label{algo:557}
+
+\subsection*{Difficulty}
+Easy
+
+\subsection*{Tags}
+String \& Array
+
+\subsection*{Description}
+Given a string, you need to reverse the order of characters in each word within a sentence while still preserving whitespace and initial word order.
+
+\begin{example}
+\begin{multilinecode}
+Input: "Let's take LeetCode contest"
+Output: "s'teL ekat edoCteeL tsetnoc"
+\end{multilinecode}
+\end{example}
+
+\textbf{Note}
+\begin{itemize}
+    \item In the string, each word is separated by single space and there will not be any extra space in the string.
+\end{itemize}
+
+\subsection*{Analysis}
+The steps in this problems are very clear. We need to find the spaces, and reverse the words between two spaces.
+
+We assume the length of the string is $n$, then
+\begin{itemize}
+    \item Time Complexity: $\mathcal{O}(n)$
+    \item Space Complexity: $\mathcal{O}(1)$
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection*{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+linenos]{c}
+char* reverseWords(char* s) {
+    char word[100];
+    char c;
+    int word_len = 0;
+    int s_len = 0;
+    for (int i = 0; (c = s[i]) != '\0'; ++i) {
+        if (c == ' ') {  // found space
+            for (int k = word_len - 1; k >= 0; --k) {
+                // reverse word
+                s[s_len++] = word[k];
+            }
+            s[s_len++] = ' ';
+            word_len = 0;
+        }
+        else {
+            word[word_len++] = c;
+        }
+    }
+    // remaining word
+    for (int k = word_len - 1; k >= 0; --k) {
+        s[s_len++] = word[k];
+    }
+    return s;
+}
+\end{minted}
+
+\newpage
