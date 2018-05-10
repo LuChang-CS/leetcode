@@ -1,0 +1,86 @@
+\tocless\section{791. Custom Sort String}
+\label{algo:791}
+
+\subsection*{Difficulty}
+Medium
+
+\subsection*{Tags}
+Hash Table, Sort, String \& Array
+
+\subsection*{Description}
+\inlinecode{S} and \inlinecode{T} are strings composed of lowercase letters. In \inlinecode{S}, no letter occurs more than once.
+
+\inlinecode{S} was sorted in some custom order previously. We want to permute the characters of \inlinecode{T} so that they match the order that \inlinecode{S} was sorted. More specifically, if \inlinecode{x} occurs before \inlinecode{y} in \inlinecode{S}, then \inlinecode{x} should occur before \inlinecode{y} in the returned string.
+
+Return any permutation of \inlinecode{T} (as a string) that satisfies this property.
+
+\begin{example}
+\begin{multilinecode}
+Input:
+S = "cba"
+T = "abcd"
+Output:
+"cbad"
+Explanation: 
+"a", "b", "c" appear in S, so the order of "a", "b", "c" should be "c", "b", and "a". 
+Since "d" does not appear in S, it can be at any position in T. "dcba", "cdba", "cbda" are also valid outputs.
+\end{multilinecode}
+\end{example}
+
+\textbf{Note}
+\begin{itemize}
+    \item \inlinecode{S} has length at most \inlinecode{26}, and no character is repeated in \inlinecode{S}.
+    \item \inlinecode{T} has length at most \inlinecode{200}.
+    \item \inlinecode{S} and \inlinecode{T} consist of lowercase letters only.
+\end{itemize}
+
+\subsection*{Analysis}
+You could easily think up that you can customize the compare function of quick sort according to \inlinecode{S}. However, the time complexity will be $\mathcal{O}(n\log{n})$ assuming the length of \inlinecode{T} is $n$.
+
+We can use a linear method to calculate the count of each letter in \inlinecode{T} and reconstruct \inlinecode{T} according the appearance order of letters in \inlinecode{S}. By the way, we can use another array to store letters which are not appear in \inlinecode{S}.
+\begin{itemize}
+    \item Time complexity: $\mathcal{O}(n)$ (because the length of \inlinecode{S} will not exceed \inlinecode{26})
+    \item Space complexity: $\mathcal{O}(n)$
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+char* customSortString(char* S, char* T) {
+    int appearance[26] = { 0 };
+    int counts[26] = { 0 };
+    char extra_letters[200];
+    int extra_letters_count = 0;
+    char c;
+    // find which letters appear in S
+    for (int i = 0; (c = S[i]) != '\0'; ++i) {
+        appearance[c - 'a'] = 1;
+    }
+    // count the frequency of T
+    for (int i = 0; (c = T[i]) != '\0'; ++i) {
+        if (appearance[c - 'a'] == 0) extra_letters[extra_letters_count++] = c;
+        else ++counts[c - 'a'];
+    }
+    int len = 0;
+    // reconstruct T according to the order in S
+    for (int i = 0; (c = S[i]) != '\0'; ++i) {
+        int count = counts[c - 'a'];
+        for (int k = 0; k < count; ++k) {
+            T[len++] = c;
+        }
+    }
+    // append the letters not appeared in S
+    for (int i = 0; i < extra_letters_count; ++i) {
+        T[len++] = extra_letters[i];
+    }
+    return T;
+}
+\end{minted}
+
+\newpage
+
