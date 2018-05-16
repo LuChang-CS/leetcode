@@ -1,0 +1,65 @@
+\tocless\section{463. Island Perimeter}
+\label{algo:463}
+
+\subsection*{Difficulty}
+Easy
+
+\subsection*{Tags}
+String \& Array
+
+\subsection*{Description}
+You are given a map in form of a two-dimensional integer grid where 1 represents land and 0 represents water. Grid cells are connected horizontally/vertically (not diagonally). The grid is completely surrounded by water, and there is exactly one island (i.e., one or more connected land cells). The island doesn't have "lakes" (water inside that isn't connected to the water around the island). One cell is a square with side length 1. The grid is rectangular, width and height don't exceed 100. Determine the perimeter of the island.
+
+\begin{example}
+\begin{multilinecode}
+Input:
+[[0,1,0,0],
+[1,1,1,0],
+[0,1,0,0],
+[1,1,0,0]]
+Output: 16
+Explanation:
+The perimeter is the 16 yellow stripes in the image below:
+\end{multilinecode}
+\includegraphics*[width=3.5cm]{figs/algo_463_1}
+\end{example}
+
+\subsection*{Analysis}
+Maybe we used to meet such problem in primary schools, counting the edge of joint rectangular. We can see from the figure that each land has four edges. And if two land are joint, they will lose two edges. The land in the edge of matrix can't be joint with outer lands. Therefor, we can iterate from top to bottom and left to right, to count the lands and the joint number.
+
+We assume there are \inlinecode{n} rows and \inlinecode{m} columns, then,
+\begin{itemize}
+    \item Time complexity: $\mathcal{O}(mn)$
+    \item Space complexity: $\mathcal{O}(1)$
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+int islandPerimeter(int** grid, int gridRowSize, int gridColSize) {
+    int count = 0;
+    for (int i = 0; i < gridRowSize; ++i) {
+        int *row = grid[i];
+        // not the top edge of matrix
+        int not_border_top = i != 0;
+        for (int j = 0; j < gridColSize; ++j) {
+            if (row[j] == 1) {
+                count += 4;
+                // joint by the top land
+                if (not_border_top && grid[i - 1][j] == 1) count -= 2;
+                // joint by the left land
+                if (j != 0 && row[j - 1] == 1) count -= 2;
+            }
+        }
+    }
+    return count;
+}
+\end{minted}
+
+\newpage
+
