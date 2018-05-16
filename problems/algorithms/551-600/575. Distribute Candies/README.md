@@ -23,6 +23,8 @@ Optimal distribution: The sister has candies [1,2,3] and the brother has candies
 The sister has three different kinds of candies.
 </pre>
 
+**Example 1:**
+
 <pre style="font-family: consolas">
 <b>Input:</b> candies = [1,1,2,3]
 <b>Output:</b> 2
