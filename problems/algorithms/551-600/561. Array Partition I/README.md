@@ -41,7 +41,7 @@ And then we need to check `b[x + 1]` to set the flag.
 
 The cases are shown in the figure below:
 
-![cases](../../../solutions/figs/algo_561_1.png)
+![cases](../../../../solutions/figs/algo_561_1.png)
 
 - Time Complexity: `O(n)`
 - Space Complexity: `O(n)`

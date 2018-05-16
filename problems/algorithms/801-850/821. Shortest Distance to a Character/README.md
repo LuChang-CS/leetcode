@@ -27,7 +27,7 @@ Given a string `S` and a character `C`, return an array of integers representing
 
 We can use the figure below to explain this algorithm:
 
-![example](../../../solutions/figs/algo_821_1.png)
+![example](../../../../solutions/figs/algo_821_1.png)
 
 The dark color is the specified characters, and we use different dark color to represent different positions. We can easily see that the light-color dots are closest to the same dark color. Therefore, the shortest distance should be calculated according to the dark-color dots. And obviously, the boundary of two dark-color dots is their middle element. So we can first find all positions of the specified character, and directly calculated the shortest distance of each character from the last middle boundary to the next middle boundary.
 
