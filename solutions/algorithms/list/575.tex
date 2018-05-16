@@ -1,0 +1,74 @@
+\tocless\section{575. Distribute Candies}
+\label{algo:575}
+
+\subsection*{Difficulty}
+Easy
+
+\subsection*{Tags}
+Hash Table, String \& Array
+
+\subsection*{Description}
+Given an integer array with \textbf{even} length, where different numbers in this array represent different \textbf{kinds} of candies. Each number means one candy of the corresponding kind. You need to distribute these candies \textbf{equally} in number to brother and sister. Return the maximum number of \textbf{kinds} of candies the sister could gain.
+
+\begin{example}
+\begin{multilinecode}
+Input: candies = [1,1,2,2,3,3]
+Output: 3
+Explanation:
+There are three different kinds of candies (1, 2 and 3), and two candies for each kind.
+Optimal distribution: The sister has candies [1,2,3] and the brother has candies [1,2,3], too.
+The sister has three different kinds of candies.
+\end{multilinecode}
+\end{example}
+
+\begin{example}
+\begin{multilinecode}
+Input: candies = [1,1,2,3]
+Output: 2
+Explanation:
+For example, the sister has candies [2,3] and the brother has candies [1,1].
+The sister has two different kinds of candies, the brother has only one kind of candies.
+\end{multilinecode}
+\end{example}
+
+\textbf{Note}
+\begin{itemize}
+    \item The length of the given array is in range [2, 10,000], and will be even.
+    \item The number in given array is in range [-100,000, 100,000].
+\end{itemize}
+
+\subsection*{Analysis}
+Obviously, we only need to count the number of all categories, assuming it is \inlinecode{N}. If \inlinecode{N} is larger than the max number of candies the sister can get, the max categories are the cases where one candy corresponds to one category, otherwise the max category number is the total category number, i.e. all categories are given to the sister.
+
+Assuming the number of candies is \inlinecode{n}, then
+\begin{itemize}
+    \item Time complexity: $\mathcal{O}(n)$
+    \item Space complexity: $\mathcal{O}(n)$
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+int distributeCandies(int* candies, int candiesSize) {
+    char cats[200001] = { 0 };
+    int cat_number = 0;
+    int max = candiesSize >> 1;
+    for (int i = 0; i < candiesSize; ++i) {
+        int cat = candies[i] + 100000;
+        if (cats[cat] == 0) {
+            cats[cat] = '1';
+            ++cat_number;
+            if (cat_number >= max) return max;
+        }
+    }
+    return cat_number;
+}
+\end{minted}
+
+\newpage
+
