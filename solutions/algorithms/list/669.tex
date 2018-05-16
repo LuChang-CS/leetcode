@@ -1,0 +1,88 @@
+\tocless\section{669. Trim a Binary Search Tree}
+\label{algo:669}
+
+\subsection*{Difficulty}
+Easy
+
+\subsection*{Tags}
+Binary Tree, Recursive Algorithm
+
+\subsection*{Description}
+Given a binary search tree and the lowest and highest boundaries as \inlinecode{L} and \inlinecode{R}, trim the tree so that all its elements lies in \inlinecode{[L, R]} (R >= L). You might need to change the root of the tree, so the result should return the new root of the trimmed binary search tree.
+
+\begin{example}
+\begin{multilinecode}
+Input:
+    1
+   / \
+  0   2
+
+  L = 1
+  R = 2
+Output:
+    1
+     \
+      2
+\end{multilinecode}
+\end{example}
+
+\begin{example}
+\begin{multilinecode}
+Input:
+    3
+   / \
+  0   4
+   \
+    2
+   /
+  1
+    
+  L = 1
+  R = 3
+Output:
+      3
+     / 
+    2   
+   /
+  1
+\end{multilinecode}
+\end{example}
+
+\subsection*{Analysis}
+This is a basic Recursive Problem. In this problem, we should first consider whether the value of the node itself needs to be trimmed, then the left and right child. If the value of the node is less than \inlinecode{L}, we need to use the right child to replace it because the right child might be greater than \inlinecode{L}. And the same procedure is applied to the cases where the value is greater than \inlinecode{R}. After comparing this node itself, we next need to traverse to it left and right child.
+
+Assuming that the number of nodes is $n$, we have
+\begin{itemize}
+    \item Time complexity: $\mathcal{O}(n)$
+    \item Space complexity: $\mathcal{O}(n)$
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+typedef struct TreeNode TreeNode;
+
+TreeNode *trim(TreeNode *node, int L, int R) {
+    if (node == NULL) return NULL;
+    // replace node with left child
+    if (node->val > R) return trim(node->left, L, R);
+    // replace node with right child
+    if (node->val < L) return trim(node->right, L, R);
+    // move to child
+    node->left = trim(node->left, L, R);
+    node->right = trim(node->right, L, R);
+    return node;
+}
+
+struct TreeNode* trimBST(struct TreeNode* root, int L, int R) {
+    return trim(root, L, R);
+}
+\end{minted}
+
+\newpage
+
