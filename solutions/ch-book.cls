@@ -30,9 +30,6 @@
 
 % content format
 \setlength{\cftsecindent}{0.2cm}
-
-% font for kannada
-\newfontfamily\kannadafont[Script=Kannada]{Noto Sans Kannada}.
 %
 
 % code format
