@@ -23,7 +23,7 @@
 %
 
 % paragraph format
-\setlength{\parindent}{2em}
+\setlength{\parindent}{0em}
 \setlength{\parskip}{0.6em}
 \renewcommand{\baselinestretch}{1.2}
 %
