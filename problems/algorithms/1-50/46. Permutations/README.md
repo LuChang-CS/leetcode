@@ -1,4 +1,4 @@
-# [Reverse String](https://leetcode.com/problems/reverse-string/)
+# [46. Permutations](https://leetcode.com/problems/permutations/)
 
 ## Difficulty
 
