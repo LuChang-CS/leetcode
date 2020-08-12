@@ -7,3 +7,5 @@
 *.toc
 *.synctex*
 _minted*/
+*.fdb_latexmk
+*.fls
