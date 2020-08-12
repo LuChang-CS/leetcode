@@ -1,0 +1,86 @@
+\tocless\section{46. Permutations}
+\label{algo:46}
+
+\subsection*{Difficulty}
+Medium
+
+\subsection*{Tags}
+String \& Array
+
+\subsection*{Description}
+Given a collection of \textbf{distinct} integers, return all possible permutations.
+
+\begin{example}
+\begin{multilinecode}
+Input: [1,2,3]
+Output:
+[
+    [1,2,3],
+    [1,3,2],
+    [2,1,3],
+    [2,3,1],
+    [3,1,2],
+    [3,2,1]
+]
+\end{multilinecode}
+
+\end{example}
+
+\subsection*{Analysis}
+Let's see the above example first. From \inlinecode{[1, 2, 3]} to \inlinecode{[1, 3, 2]}, the last two elements are swapped. Then, from \inlinecode{[1, 3, 2]} to \inlinecode{[2, 1, 3]}, it is swapped back to \inlinecode{[1, 2, 3]}, then the first two elements are swapped. Finally, from \inlinecode{[2, 3, 1]} to \inlinecode{[3, 1, 2]}, it is first swapped to \inlinecode{[2, 1, 3]}, then \inlinecode{[1, 2, 3]}, and \inlinecode{[3, 1, 2]}. We can see that the generation of each line is the swap of every two elements. We swap the first element to every other element, then consider the remaining array and continue swapping the first.
+
+\begin{itemize}
+    \item Time Complexity: $\mathcal{O}(n!)$
+    \item Space Complexity: $\mathcal{O}(n\times n!)$
+\end{itemize}
+
+\subsection*{Solution}
+\subsubsection*{C}
+\begin{minted}[framesep=2mm,
+baselinestretch=1.2,
+bgcolor=codebackground,
+fontsize=\footnotesize,
+breaklines,
+linenos]{c}
+void swap(int* nums, int s, int e) {
+    int t = nums[s];
+    nums[s] = nums[e];
+    nums[e] = t;
+}
+
+void fill(int* nums, int s, int numsSize, int** results, int* cur) {
+    if (s >= numsSize - 1) {
+        // reach the last element.
+        memcpy(results[(*cur)++], nums, numsSize * sizeof(int));
+    } else {
+        // keep the first element and generate the remaining array.
+        fill(nums, s + 1, numsSize, results, cur);
+        for (int e = s + 1; e < numsSize; ++e) {
+            // swap the first with every other element and generate the remaining array.
+            swap(nums, s, e);
+            fill(nums, s + 1, numsSize, results, cur);
+            // swap back
+            swap(nums, s, e);
+        }
+    }
+}
+
+int** permute(int* nums, int numsSize, int* returnSize, int** returnColumnSizes) {
+    int n = 1;
+    for (int i = 1; i <= numsSize; ++i) n *= i;
+    *returnSize = n;
+    *returnColumnSizes = (int*) malloc(sizeof(int) * n);
+    for (int i = 0; i < n; ++i) (*returnColumnSizes)[i] = numsSize;
+    int** results = (int**) malloc(sizeof(int*) * n);
+    for (int i = 0; i < n; ++i) {
+        results[i] = (int*) malloc(sizeof(int) * numsSize);
+    }
+    int cur = 0;
+    fill(nums, 0, numsSize, results, &cur);
+    return results;
+}
+
+\end{minted}
+
+\newpage
+
